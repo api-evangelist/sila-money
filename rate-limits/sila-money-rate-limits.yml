@@ -1,0 +1,55 @@
+specification: API Commons Rate Limits
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
+provider: Sila
+providerId: sila-money
+created: '2026-07-12'
+modified: '2026-07-12'
+reconciled: false
+tags:
+- Embedded Finance
+- Payments
+- ACH
+- Rate Limiting
+- Quotas
+description: >-
+  Sila does not publish fixed numeric rate limits on the pages reviewed. As a
+  regulated money-movement platform, effective throughput is governed more by
+  program-level transaction limits, ACH processing windows / cutoffs, and
+  KYC-approval state than by a per-minute request cap. Applicants should assume
+  Sila applies standard abuse protections and confirm any per-app throughput and
+  transaction-velocity limits with Sila during onboarding.
+notes: >-
+  reconciled:false. No published numeric per-endpoint or per-minute limit was found.
+  ACH settlement is not instantaneous - money-movement endpoints (issue/redeem)
+  complete over the ACH network's processing schedule, which functions as a de facto
+  throughput constraint distinct from API request rate.
+sources:
+- https://docs.silamoney.com/docs/get-started
+- https://docs.silamoney.com/docs/ecdsa-overview
+responseCodes:
+  throttled: 429
+limits:
+- name: API Request Rate
+  scope: application
+  metric: requests
+  limit: not published
+  notes: No fixed numeric request-rate limit is documented for the Sila API.
+- name: Transaction Velocity
+  scope: program
+  metric: transactions
+  limit: per agreement
+  notes: Per-program money-movement / transaction-velocity limits are set in the commercial agreement, not published.
+- name: ACH Settlement Window
+  scope: transaction
+  metric: settlement
+  limit: ACH network schedule
+  notes: issue_sila / redeem_sila settle over ACH processing windows and cutoffs rather than completing instantly.
+policies:
+- name: Backoff Strategy
+  description: Clients should implement exponential backoff with jitter and honor Retry-After on 429 responses.
+- name: KYC Gating
+  description: Money-movement endpoints are gated on the user / business having passed KYC / KYB verification.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

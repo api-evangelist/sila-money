@@ -1,0 +1,139 @@
+aid: sila-money
+name: Sila
+review:
+  question: Does Sila expose a documented public WebSocket API?
+  answer: false
+  date: '2026-07-12'
+  reviewer: API Evangelist
+  asyncapiSpecCreated: false
+  asyncapiScopeNote: |
+    No AsyncAPI document was authored. Sila's public API is entirely
+    request/response REST over HTTPS - every documented endpoint is an HTTP POST
+    to https://api.silamoney.com/0.2 with a signed JSON body. Sila's
+    asynchronous / event surface is delivered by outbound webhooks (server POSTs
+    to a customer-configured HTTP endpoint on transaction state changes), not by
+    a server-push streaming transport on Sila's own API. There is no ws:// or
+    wss:// endpoint and no SSE stream to model, so no AsyncAPI was created.
+status:
+  state: live
+  note: |
+    Sila (silamoney.com) is operating as of the review date. It is an
+    independent fintech (raised ~$23.7M; not acquired or shut down per public
+    records searched). Live probes on 2026-07-12 confirm www, api, sandbox, and
+    docs hosts all resolve and respond, and the production /0.2 API returns a
+    signed-request validation error - i.e. the API is live, not retired. SDKs
+    (JS, Python, Java, PHP, C#) on github.com/sila-Money show 2025-2026 activity.
+findings:
+  summary: |
+    Sila does not publish a documented public WebSocket API. Sila is an
+    embedded-finance / banking-as-a-service money API for fintech developers.
+    The API is REST over HTTPS with a distinctive auth model: every endpoint is
+    an HTTP POST to https://api.silamoney.com/0.2 (sandbox
+    https://sandbox.silamoney.com/0.2) carrying a JSON "message" body, and each
+    request is signed with ECDSA (secp256k1) signatures over a Keccak-256 (SHA3)
+    hash of the stringified body. The app-keypair signature goes in the
+    "authsignature" header, the user-keypair signature in "usersignature", and
+    KYB/business calls add a "businesssignature" header. Product areas: identity
+    (check_handle, register), KYC/KYB (request_kyc, check_kyc, documents),
+    wallets (register_wallet, get_wallet(s)), linked bank accounts (link_account,
+    get_accounts, get_account_balance, check_bank_account_capabilities), money
+    movement over ACH via an issue/transfer/redeem model (issue_sila,
+    transfer_sila, redeem_sila, get_transactions, cancel_transaction), payment
+    methods and cards (get_payment_methods, link_card), and Virtual Accounts
+    (dedicated account + routing number). Asynchronous notifications are
+    delivered via outbound webhooks, not WebSocket.
+  transports:
+    - protocol: REST
+      scheme: https
+      baseURL: https://api.silamoney.com/0.2
+      documented: true
+      note: All endpoints are HTTP POST with a signed JSON body. Sandbox base is https://sandbox.silamoney.com/0.2.
+    - protocol: Webhook
+      scheme: https
+      documented: true
+      note: Sila POSTs event notifications (e.g. transaction status changes) to a customer-configured HTTP endpoint. Server-to-endpoint HTTP, not WebSocket.
+    - protocol: WebSocket
+      scheme: wss
+      documented: false
+      note: No WebSocket endpoint is documented anywhere in Sila's docs as of the review date.
+  authentication: |
+    Request signing, not bearer/API-key. ECDSA (secp256k1) signature of a
+    Keccak-256 hash of the stringified JSON message body. Headers: authsignature
+    (app keypair, always), usersignature (user keypair, user-scoped calls),
+    businesssignature (business keypair, KYB). Private keys are hex-encoded
+    64-char strings; Sila stores only derived addresses. Confirmed live: POST
+    /0.2/check_handle with no signature header returns HTTP 400 with
+    validation_details.header "This field is required."
+  endpointsConfirmedRest:
+    - POST https://api.silamoney.com/0.2/check_handle
+    - POST https://api.silamoney.com/0.2/register
+    - POST https://api.silamoney.com/0.2/request_kyc
+    - POST https://api.silamoney.com/0.2/check_kyc
+    - POST https://api.silamoney.com/0.2/documents
+    - POST https://api.silamoney.com/0.2/register_wallet
+    - POST https://api.silamoney.com/0.2/get_wallet
+    - POST https://api.silamoney.com/0.2/get_wallets
+    - POST https://api.silamoney.com/0.2/link_account
+    - POST https://api.silamoney.com/0.2/get_accounts
+    - POST https://api.silamoney.com/0.2/get_account_balance
+    - POST https://api.silamoney.com/0.2/check_bank_account_capabilities
+    - POST https://api.silamoney.com/0.2/issue_sila
+    - POST https://api.silamoney.com/0.2/transfer_sila
+    - POST https://api.silamoney.com/0.2/redeem_sila
+    - POST https://api.silamoney.com/0.2/get_transactions
+    - POST https://api.silamoney.com/0.2/cancel_transaction
+    - POST https://api.silamoney.com/0.2/get_payment_methods
+    - POST https://api.silamoney.com/0.2/link_card
+  endpointsModeledOrUnconfirmed:
+    - note: |
+        The following are referenced in Sila's product/docs navigation but their
+        exact endpoint paths were NOT confirmed on the pages reviewed, so they
+        are NOT modeled in the OpenAPI. Verify before use.
+    - Virtual Accounts management (open / get / update / close) - product is documented (dedicated account + routing number) and virtual accounts surface via get_payment_methods, but dedicated endpoint paths were not confirmed.
+    - Advanced KYC endpoint (kyc) and registration-data sub-endpoints (add/update/delete registration data) - documented conceptually; exact paths not individually confirmed.
+    - Webhook management (get_webhooks / retry_webhook) - referenced in overview; exact paths not individually confirmed.
+  schemaHonesty: |
+    Endpoint PATHS and the POST method are grounded in live docs + live probes.
+    Request/response SCHEMAS in the OpenAPI are MODELED as permissive objects
+    (additionalProperties: true) with a common message header and response
+    envelope; real Sila bodies are richer. Not authoritative - consult docs.
+sources:
+  - url: https://docs.silamoney.com/docs/get-started
+    type: Documentation
+    note: Getting started; lists endpoint categories (identity, KYC/KYB, accounts, transactions, payment methods).
+  - url: https://docs.silamoney.com/docs/ecdsa-overview
+    type: Documentation
+    note: ECDSA (secp256k1) + Keccak-256 signing; authsignature / usersignature / businesssignature headers.
+  - url: https://docs.silamoney.com/docs/register
+    type: APIReference
+    note: User / business registration.
+  - url: https://docs.silamoney.com/docs/issue_sila
+    type: APIReference
+    note: Issue Sila (ACH debit to wallet balance).
+  - url: https://docs.silamoney.com/docs/transfer_sila
+    type: APIReference
+    note: Transfer Sila (wallet to wallet).
+  - url: https://docs.silamoney.com/docs/get_payment_methods
+    type: APIReference
+    note: Lists bank accounts, virtual accounts, and wallets; confirmed POST /0.2/ base.
+  - url: https://www.silamoney.com/virtual-accounts
+    type: Documentation
+    note: Virtual Accounts product - dedicated account and routing number.
+  - url: https://github.com/sila-Money
+    type: SourceCode
+    note: SDKs (JS/Python/Java/PHP/C#) and sila-postman-signer; 2025-2026 activity confirms live/maintained.
+  - url: live probe POST https://api.silamoney.com/0.2/check_handle
+    type: Probe
+    note: HTTP 400 with signature-required validation error; confirms /0.2 REST surface is live and signed-request auth.
+actions:
+  asyncapiPath: null
+  apisYmlUpdated: true
+  reason: |
+    No WebSocket protocol surface exists and Sila's public API is
+    request/response REST (signed POST to /0.2). Asynchronous notifications use
+    outbound webhooks, which carry their own HTTP transport and are not a
+    server-push streaming surface on Sila's own API, so no AsyncAPI document was
+    created.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

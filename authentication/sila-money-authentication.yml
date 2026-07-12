@@ -1,0 +1,64 @@
+generated: '2026-07-12'
+method: documented
+source: https://docs.silamoney.com/docs/ecdsa-overview
+summary:
+  types:
+  - signature
+schemes:
+- name: authsignature
+  type: signature
+  algorithm: ECDSA
+  curve: secp256k1
+  hash: Keccak-256
+  in: header
+  scope: application
+  description: >-
+    Hex-encoded ECDSA (secp256k1) signature over a Keccak-256 (SHA3) hash of the
+    stringified JSON message body, signed with the application's private key.
+    Sent in the "authsignature" request header. Sila stores only addresses
+    (derived from public keys); private keys never leave the client. Confirmed
+    live - a POST to /0.2/check_handle with no signature header returns HTTP 400
+    with validation_details.header "This field is required."
+  sources:
+  - https://docs.silamoney.com/docs/ecdsa-overview
+- name: usersignature
+  type: signature
+  algorithm: ECDSA
+  curve: secp256k1
+  hash: Keccak-256
+  in: header
+  scope: user
+  description: >-
+    Second ECDSA signature over the same message hash, signed with the end
+    user's registered keypair (from /register or /register_wallet). Required in
+    addition to authsignature on user-scoped endpoints (link_account, issue_sila,
+    transfer_sila, redeem_sila, get_transactions, etc.). Sent in the
+    "usersignature" header.
+  sources:
+  - https://docs.silamoney.com/docs/ecdsa-overview
+- name: businesssignature
+  type: signature
+  algorithm: ECDSA
+  curve: secp256k1
+  hash: Keccak-256
+  in: header
+  scope: business
+  description: >-
+    Third ECDSA signature signed with a registered business keypair, used
+    alongside authsignature (and usersignature) for KYB / business-entity
+    operations. Sent in the "businesssignature" header. The precise set of
+    endpoints that require it is not exhaustively enumerated in the pages
+    reviewed.
+  sources:
+  - https://docs.silamoney.com/docs/ecdsa-overview
+notes: >-
+  Sila uses no bearer token or API key in the classic sense - authentication is
+  request signing. Because standard tooling (Postman, generic OpenAPI clients)
+  cannot compute a per-body ECDSA signature, Sila publishes helper tooling:
+  sila-postman-signer (a local signing proxy) and language SDKs
+  (JavaScript, Python, Java, PHP, C#) at https://github.com/sila-Money. Private
+  keys are hex-encoded 64-character strings (no 0x prefix). An "app handle" plus
+  its address is provisioned per application in the Sila console.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

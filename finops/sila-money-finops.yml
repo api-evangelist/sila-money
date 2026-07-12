@@ -1,0 +1,100 @@
+specification: FinOps Framework
+specificationVersion: '1.0'
+schema: https://www.finops.org/framework/
+provider: Sila
+providerId: sila-money
+created: '2026-07-12'
+modified: '2026-07-12'
+reconciled: false
+tags:
+- Embedded Finance
+- Banking as a Service
+- Payments
+- ACH
+- Fintech
+- FinOps
+- Cost Management
+- FOCUS
+description: >-
+  FinOps view of Sila spend. Unlike a flat SaaS API, Sila's cost is dominated by
+  per-transaction and per-verification fees inherent to regulated money movement:
+  each ACH debit / credit (issue_sila, redeem_sila), each identity verification
+  (request_kyc / KYB), and virtual-account provisioning carry unit costs under a
+  negotiated production agreement. The sandbox is free. Because rates are contracted
+  and not published, the meters below are MODELED cost drivers, not reconciled unit
+  prices.
+notes: >-
+  reconciled:false. Per-transaction, per-KYC, and virtual-account unit prices are set
+  in the Sila commercial agreement and were not published on the pages reviewed.
+  Reconcile actual rates, minimums, and any monthly platform fee with Sila. Note
+  also downstream network costs (ACH returns / NSF, dispute handling) that flow
+  through money movement.
+sources:
+- https://www.silamoney.com/
+- https://docs.silamoney.com/docs/get-started
+- https://www.silamoney.com/virtual-accounts
+- https://focus.finops.org/focus-specification/v1-3/
+alignedWith:
+  framework: FinOps Foundation Framework
+  frameworkUrl: https://www.finops.org/framework/
+  dataSpec: FOCUS
+  dataSpecVersion: '1.3'
+  dataSpecUrl: https://focus.finops.org/focus-specification/v1-3/
+publisherName: Sila
+serviceCategory: Embedded Finance and Payments
+billingModel:
+  pricingCategory: Usage-Based
+  billingFrequency: Monthly
+  billingCurrency: USD
+  chargeCategories:
+  - Usage
+  - Purchase
+  - Adjustment
+focusColumns:
+  ServiceName: Sila Money API
+  ServiceCategory: Embedded Finance and Payments
+  ProviderName: Sila
+  PublisherName: Sila
+  InvoiceIssuerName: Sila
+  BillingCurrency: USD
+  ChargeCategory: Usage
+  PricingCategory: Usage-Based
+meters:
+- name: ach_transactions
+  description: Per ACH money-movement transaction (issue_sila debit, redeem_sila credit). MODELED cost driver.
+  unit: transactions
+  aggregation: sum
+  dimensions:
+  - app_handle
+  - user_handle
+- name: kyc_verifications
+  description: Per identity verification (request_kyc) and KYB verification. MODELED cost driver.
+  unit: verifications
+  aggregation: sum
+  dimensions:
+  - app_handle
+  - user_handle
+- name: virtual_accounts
+  description: Virtual-account provisioning / maintenance (dedicated account and routing number). MODELED cost driver.
+  unit: accounts
+  aggregation: sum
+  dimensions:
+  - app_handle
+- name: ach_returns
+  description: ACH returns / NSF and dispute-handling adjustments flowing through money movement. MODELED cost driver.
+  unit: events
+  aggregation: sum
+  dimensions:
+  - app_handle
+principles:
+- name: Visibility
+  description: Track ACH transaction counts, KYC/KYB verification counts, and virtual-account provisioning per app_handle and user_handle to attribute spend.
+- name: Allocation
+  description: Use app_handle / user_handle and per-request reference to map money-movement and verification costs to internal cost centers or end customers.
+- name: Optimization
+  description: Batch or gate verifications to avoid re-running KYC unnecessarily; check_bank_account_capabilities before initiating transfers to reduce ACH returns; right-size virtual-account provisioning.
+- name: Accountability
+  description: Assign owners per program; review monthly transaction / verification volume against the contracted rate card and any minimums.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

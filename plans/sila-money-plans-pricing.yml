@@ -1,0 +1,81 @@
+specification: API Commons Plans
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
+provider: Sila
+providerId: sila-money
+created: '2026-07-12'
+modified: '2026-07-12'
+reconciled: false
+tags:
+- Embedded Finance
+- Banking as a Service
+- Payments
+- ACH
+- Fintech
+- Plans
+description: >-
+  Sila does not publish a self-serve, public per-seat price list on its docs. Access
+  follows an embedded-finance / BaaS commercial model: a free sandbox for building
+  and testing against https://sandbox.silamoney.com/0.2, and a contracted production
+  agreement (contact sales / onboarding) with per-transaction pricing for live ACH
+  money movement, identity verification (KYC/KYB), and virtual accounts. The plan
+  entries below are MODELED from Sila's documented product structure, not reproduced
+  from a published rate card - all numeric pricing must be reconciled with Sila
+  directly.
+notes: >-
+  reconciled:false. Sila's real production pricing is negotiated per program and was
+  not published on the pages reviewed. Verify sandbox terms, minimums, per-ACH and
+  per-KYC fees, and virtual-account pricing with Sila sales during onboarding.
+sources:
+- https://www.silamoney.com/
+- https://docs.silamoney.com/docs/get-started
+- https://www.silamoney.com/virtual-accounts
+plans:
+- id: sila-sandbox
+  name: Sandbox
+  type: free
+  description: >-
+    Free sandbox environment at https://sandbox.silamoney.com/0.2 for integrating
+    and testing the full API surface (registration, KYC/KYB, wallets, linked
+    accounts, issue/transfer/redeem) with simulated money movement. No live funds.
+  entries:
+  - label: Sandbox Access
+    name: sandbox_access
+    type: flat
+    metric: environment
+    limit: -1
+    timeFrame: month
+    geo: us
+    unit: 1
+    price: free
+    userMultiplied: false
+  elements:
+  - name: Full API Surface
+  - name: Simulated ACH / KYC
+  - name: SDKs and Postman Signer
+- id: sila-production
+  name: Production
+  type: paid
+  description: >-
+    Contracted production access with live ACH money movement, real KYC/KYB, and
+    virtual accounts. Priced per transaction / per verification under a negotiated
+    agreement. Contact Sila to onboard.
+  entries:
+  - label: Production Access
+    name: production_access
+    type: usage
+    metric: transactions
+    limit: -1
+    timeFrame: month
+    geo: us
+    unit: 1
+    price: contact sales (per-transaction; not published)
+    userMultiplied: false
+  elements:
+  - name: Live ACH Money Movement
+  - name: KYC / KYB Verification
+  - name: Virtual Accounts
+  - name: Debit Card Linking
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

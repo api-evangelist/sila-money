@@ -1,0 +1,745 @@
+{
+  "info": {
+    "name": "Sila Money API",
+    "description": "Sila embedded-finance / banking-as-a-service money API. All endpoints are HTTP POST to https://api.silamoney.com/0.2 (sandbox https://sandbox.silamoney.com/0.2) with a JSON message body. Requests are signed with ECDSA (secp256k1) over a Keccak-256 hash of the body: authsignature (app keypair), usersignature (user keypair), and businesssignature (business keypair, KYB). Postman cannot compute these signatures natively - Sila publishes sila-postman-signer, a local signing proxy, at github.com/sila-Money. The signature headers are declared empty here; populate them via the signer.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://api.silamoney.com/0.2",
+      "type": "string"
+    },
+    {
+      "key": "appHandle",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "userHandle",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "authsignature",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "usersignature",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Identity & KYC/KYB",
+      "item": [
+        {
+          "name": "Check handle availability",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "authsignature",
+                "value": "{{authsignature}}",
+                "description": "App-keypair ECDSA signature of the body."
+              },
+              {
+                "key": "usersignature",
+                "value": "{{usersignature}}",
+                "description": "User-keypair ECDSA signature (user-scoped calls)."
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"header\": {\n    \"created\": 0,\n    \"app_handle\": \"{{appHandle}}\",\n    \"user_handle\": \"{{userHandle}}\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/check_handle",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "check_handle"
+              ]
+            },
+            "description": "Check whether a user or business handle is available. Requires authsignature."
+          }
+        },
+        {
+          "name": "Register a user or business",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "authsignature",
+                "value": "{{authsignature}}",
+                "description": "App-keypair ECDSA signature of the body."
+              },
+              {
+                "key": "usersignature",
+                "value": "{{usersignature}}",
+                "description": "User-keypair ECDSA signature (user-scoped calls)."
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"header\": {\n    \"created\": 0,\n    \"app_handle\": \"{{appHandle}}\",\n    \"user_handle\": \"{{userHandle}}\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/register",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "register"
+              ]
+            },
+            "description": "Register a new end user or business entity with registration data. Requires authsignature."
+          }
+        },
+        {
+          "name": "Request KYC verification",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "authsignature",
+                "value": "{{authsignature}}",
+                "description": "App-keypair ECDSA signature of the body."
+              },
+              {
+                "key": "usersignature",
+                "value": "{{usersignature}}",
+                "description": "User-keypair ECDSA signature (user-scoped calls)."
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"header\": {\n    \"created\": 0,\n    \"app_handle\": \"{{appHandle}}\",\n    \"user_handle\": \"{{userHandle}}\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/request_kyc",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "request_kyc"
+              ]
+            },
+            "description": "Start identity verification (KYC) for a registered user. Requires authsignature + usersignature."
+          }
+        },
+        {
+          "name": "Check KYC status",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "authsignature",
+                "value": "{{authsignature}}",
+                "description": "App-keypair ECDSA signature of the body."
+              },
+              {
+                "key": "usersignature",
+                "value": "{{usersignature}}",
+                "description": "User-keypair ECDSA signature (user-scoped calls)."
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"header\": {\n    \"created\": 0,\n    \"app_handle\": \"{{appHandle}}\",\n    \"user_handle\": \"{{userHandle}}\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/check_kyc",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "check_kyc"
+              ]
+            },
+            "description": "Return current verification status. Requires authsignature + usersignature (businesssignature for KYB)."
+          }
+        },
+        {
+          "name": "Upload a supporting document",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "authsignature",
+                "value": "{{authsignature}}",
+                "description": "App-keypair ECDSA signature of the body."
+              },
+              {
+                "key": "usersignature",
+                "value": "{{usersignature}}",
+                "description": "User-keypair ECDSA signature (user-scoped calls)."
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"header\": {\n    \"created\": 0,\n    \"app_handle\": \"{{appHandle}}\",\n    \"user_handle\": \"{{userHandle}}\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/documents",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "documents"
+              ]
+            },
+            "description": "Upload a KYC/KYB supporting document (multipart). Requires authsignature + usersignature."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Wallets",
+      "item": [
+        {
+          "name": "Register a wallet keypair",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "authsignature",
+                "value": "{{authsignature}}",
+                "description": "App-keypair ECDSA signature of the body."
+              },
+              {
+                "key": "usersignature",
+                "value": "{{usersignature}}",
+                "description": "User-keypair ECDSA signature (user-scoped calls)."
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"header\": {\n    \"created\": 0,\n    \"app_handle\": \"{{appHandle}}\",\n    \"user_handle\": \"{{userHandle}}\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/register_wallet",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "register_wallet"
+              ]
+            },
+            "description": "Register an additional ECDSA (secp256k1) keypair to a user. Requires authsignature + usersignature."
+          }
+        },
+        {
+          "name": "Get the signing wallet",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "authsignature",
+                "value": "{{authsignature}}",
+                "description": "App-keypair ECDSA signature of the body."
+              },
+              {
+                "key": "usersignature",
+                "value": "{{usersignature}}",
+                "description": "User-keypair ECDSA signature (user-scoped calls)."
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"header\": {\n    \"created\": 0,\n    \"app_handle\": \"{{appHandle}}\",\n    \"user_handle\": \"{{userHandle}}\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/get_wallet",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "get_wallet"
+              ]
+            },
+            "description": "Return details for the wallet whose keypair signed the request. Requires authsignature + usersignature."
+          }
+        },
+        {
+          "name": "List wallets",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "authsignature",
+                "value": "{{authsignature}}",
+                "description": "App-keypair ECDSA signature of the body."
+              },
+              {
+                "key": "usersignature",
+                "value": "{{usersignature}}",
+                "description": "User-keypair ECDSA signature (user-scoped calls)."
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"header\": {\n    \"created\": 0,\n    \"app_handle\": \"{{appHandle}}\",\n    \"user_handle\": \"{{userHandle}}\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/get_wallets",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "get_wallets"
+              ]
+            },
+            "description": "List all wallets registered to a user. Requires authsignature + usersignature."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Bank Accounts",
+      "item": [
+        {
+          "name": "Link a bank account",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "authsignature",
+                "value": "{{authsignature}}",
+                "description": "App-keypair ECDSA signature of the body."
+              },
+              {
+                "key": "usersignature",
+                "value": "{{usersignature}}",
+                "description": "User-keypair ECDSA signature (user-scoped calls)."
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"header\": {\n    \"created\": 0,\n    \"app_handle\": \"{{appHandle}}\",\n    \"user_handle\": \"{{userHandle}}\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/link_account",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "link_account"
+              ]
+            },
+            "description": "Link an external bank account as a funding source (direct or via Plaid). Requires authsignature + usersignature."
+          }
+        },
+        {
+          "name": "List linked accounts",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "authsignature",
+                "value": "{{authsignature}}",
+                "description": "App-keypair ECDSA signature of the body."
+              },
+              {
+                "key": "usersignature",
+                "value": "{{usersignature}}",
+                "description": "User-keypair ECDSA signature (user-scoped calls)."
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"header\": {\n    \"created\": 0,\n    \"app_handle\": \"{{appHandle}}\",\n    \"user_handle\": \"{{userHandle}}\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/get_accounts",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "get_accounts"
+              ]
+            },
+            "description": "List the external bank accounts linked to a user. Requires authsignature + usersignature."
+          }
+        },
+        {
+          "name": "Get account balance",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "authsignature",
+                "value": "{{authsignature}}",
+                "description": "App-keypair ECDSA signature of the body."
+              },
+              {
+                "key": "usersignature",
+                "value": "{{usersignature}}",
+                "description": "User-keypair ECDSA signature (user-scoped calls)."
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"header\": {\n    \"created\": 0,\n    \"app_handle\": \"{{appHandle}}\",\n    \"user_handle\": \"{{userHandle}}\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/get_account_balance",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "get_account_balance"
+              ]
+            },
+            "description": "Return balance for a linked bank account. Requires authsignature + usersignature."
+          }
+        },
+        {
+          "name": "Check bank account capabilities",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "authsignature",
+                "value": "{{authsignature}}",
+                "description": "App-keypair ECDSA signature of the body."
+              },
+              {
+                "key": "usersignature",
+                "value": "{{usersignature}}",
+                "description": "User-keypair ECDSA signature (user-scoped calls)."
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"header\": {\n    \"created\": 0,\n    \"app_handle\": \"{{appHandle}}\",\n    \"user_handle\": \"{{userHandle}}\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/check_bank_account_capabilities",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "check_bank_account_capabilities"
+              ]
+            },
+            "description": "Confirm ACH send/receive capability before money movement. Requires authsignature + usersignature."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Payments & Transactions",
+      "item": [
+        {
+          "name": "Issue Sila (debit bank, credit wallet)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "authsignature",
+                "value": "{{authsignature}}",
+                "description": "App-keypair ECDSA signature of the body."
+              },
+              {
+                "key": "usersignature",
+                "value": "{{usersignature}}",
+                "description": "User-keypair ECDSA signature (user-scoped calls)."
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"header\": {\n    \"created\": 0,\n    \"app_handle\": \"{{appHandle}}\",\n    \"user_handle\": \"{{userHandle}}\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/issue_sila",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "issue_sila"
+              ]
+            },
+            "description": "Debit a linked bank account over ACH and credit the wallet balance. Requires authsignature + usersignature."
+          }
+        },
+        {
+          "name": "Transfer Sila (wallet to wallet)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "authsignature",
+                "value": "{{authsignature}}",
+                "description": "App-keypair ECDSA signature of the body."
+              },
+              {
+                "key": "usersignature",
+                "value": "{{usersignature}}",
+                "description": "User-keypair ECDSA signature (user-scoped calls)."
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"header\": {\n    \"created\": 0,\n    \"app_handle\": \"{{appHandle}}\",\n    \"user_handle\": \"{{userHandle}}\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/transfer_sila",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "transfer_sila"
+              ]
+            },
+            "description": "Move wallet balance user-to-user within the program. Requires authsignature + usersignature."
+          }
+        },
+        {
+          "name": "Redeem Sila (debit wallet, credit bank)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "authsignature",
+                "value": "{{authsignature}}",
+                "description": "App-keypair ECDSA signature of the body."
+              },
+              {
+                "key": "usersignature",
+                "value": "{{usersignature}}",
+                "description": "User-keypair ECDSA signature (user-scoped calls)."
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"header\": {\n    \"created\": 0,\n    \"app_handle\": \"{{appHandle}}\",\n    \"user_handle\": \"{{userHandle}}\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/redeem_sila",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "redeem_sila"
+              ]
+            },
+            "description": "Debit wallet balance and credit a linked bank account over ACH. Requires authsignature + usersignature."
+          }
+        },
+        {
+          "name": "List transactions",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "authsignature",
+                "value": "{{authsignature}}",
+                "description": "App-keypair ECDSA signature of the body."
+              },
+              {
+                "key": "usersignature",
+                "value": "{{usersignature}}",
+                "description": "User-keypair ECDSA signature (user-scoped calls)."
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"header\": {\n    \"created\": 0,\n    \"app_handle\": \"{{appHandle}}\",\n    \"user_handle\": \"{{userHandle}}\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/get_transactions",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "get_transactions"
+              ]
+            },
+            "description": "Return transaction history and status. Requires authsignature + usersignature."
+          }
+        },
+        {
+          "name": "Cancel a pending transaction",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "authsignature",
+                "value": "{{authsignature}}",
+                "description": "App-keypair ECDSA signature of the body."
+              },
+              {
+                "key": "usersignature",
+                "value": "{{usersignature}}",
+                "description": "User-keypair ECDSA signature (user-scoped calls)."
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"header\": {\n    \"created\": 0,\n    \"app_handle\": \"{{appHandle}}\",\n    \"user_handle\": \"{{userHandle}}\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/cancel_transaction",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "cancel_transaction"
+              ]
+            },
+            "description": "Cancel an eligible pending transaction. Requires authsignature + usersignature."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Payment Methods & Cards",
+      "item": [
+        {
+          "name": "List payment methods",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "authsignature",
+                "value": "{{authsignature}}",
+                "description": "App-keypair ECDSA signature of the body."
+              },
+              {
+                "key": "usersignature",
+                "value": "{{usersignature}}",
+                "description": "User-keypair ECDSA signature (user-scoped calls)."
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"header\": {\n    \"created\": 0,\n    \"app_handle\": \"{{appHandle}}\",\n    \"user_handle\": \"{{userHandle}}\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/get_payment_methods",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "get_payment_methods"
+              ]
+            },
+            "description": "List bank accounts, virtual accounts, and wallets in one call. Requires authsignature + usersignature."
+          }
+        },
+        {
+          "name": "Link a debit card",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "authsignature",
+                "value": "{{authsignature}}",
+                "description": "App-keypair ECDSA signature of the body."
+              },
+              {
+                "key": "usersignature",
+                "value": "{{usersignature}}",
+                "description": "User-keypair ECDSA signature (user-scoped calls)."
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"header\": {\n    \"created\": 0,\n    \"app_handle\": \"{{appHandle}}\",\n    \"user_handle\": \"{{userHandle}}\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/link_card",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "link_card"
+              ]
+            },
+            "description": "Attach a debit card as a payment instrument. Requires authsignature + usersignature."
+          }
+        }
+      ]
+    }
+  ]
+}

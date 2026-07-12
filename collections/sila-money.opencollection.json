@@ -1,0 +1,601 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Sila Money API",
+    "version": "0.2",
+    "description": "Sila embedded-finance / banking-as-a-service money API. All endpoints are HTTP POST to https://api.silamoney.com/0.2 (sandbox https://sandbox.silamoney.com/0.2) with a JSON message body. Requests are signed with ECDSA (secp256k1) over a Keccak-256 hash of the body: authsignature (app keypair), usersignature (user keypair), and businesssignature (business keypair, KYB). Postman cannot compute these signatures natively - Sila publishes sila-postman-signer, a local signing proxy, at github.com/sila-Money. The signature headers are declared empty here; populate them via the signer."
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Identity & KYC/KYB",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Check handle availability",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.silamoney.com/0.2/check_handle",
+            "headers": [
+              {
+                "name": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "name": "authsignature",
+                "value": "{{authsignature}}"
+              },
+              {
+                "name": "usersignature",
+                "value": "{{usersignature}}"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{\n  \"header\": {\n    \"created\": 0,\n    \"app_handle\": \"{{appHandle}}\",\n    \"user_handle\": \"{{userHandle}}\"\n  }\n}"
+            }
+          },
+          "docs": "Check whether a user or business handle is available. Requires authsignature."
+        },
+        {
+          "info": {
+            "name": "Register a user or business",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.silamoney.com/0.2/register",
+            "headers": [
+              {
+                "name": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "name": "authsignature",
+                "value": "{{authsignature}}"
+              },
+              {
+                "name": "usersignature",
+                "value": "{{usersignature}}"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{\n  \"header\": {\n    \"created\": 0,\n    \"app_handle\": \"{{appHandle}}\",\n    \"user_handle\": \"{{userHandle}}\"\n  }\n}"
+            }
+          },
+          "docs": "Register a new end user or business entity with registration data. Requires authsignature."
+        },
+        {
+          "info": {
+            "name": "Request KYC verification",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.silamoney.com/0.2/request_kyc",
+            "headers": [
+              {
+                "name": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "name": "authsignature",
+                "value": "{{authsignature}}"
+              },
+              {
+                "name": "usersignature",
+                "value": "{{usersignature}}"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{\n  \"header\": {\n    \"created\": 0,\n    \"app_handle\": \"{{appHandle}}\",\n    \"user_handle\": \"{{userHandle}}\"\n  }\n}"
+            }
+          },
+          "docs": "Start identity verification (KYC) for a registered user. Requires authsignature + usersignature."
+        },
+        {
+          "info": {
+            "name": "Check KYC status",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.silamoney.com/0.2/check_kyc",
+            "headers": [
+              {
+                "name": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "name": "authsignature",
+                "value": "{{authsignature}}"
+              },
+              {
+                "name": "usersignature",
+                "value": "{{usersignature}}"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{\n  \"header\": {\n    \"created\": 0,\n    \"app_handle\": \"{{appHandle}}\",\n    \"user_handle\": \"{{userHandle}}\"\n  }\n}"
+            }
+          },
+          "docs": "Return current verification status. Requires authsignature + usersignature (businesssignature for KYB)."
+        },
+        {
+          "info": {
+            "name": "Upload a supporting document",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.silamoney.com/0.2/documents",
+            "headers": [
+              {
+                "name": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "name": "authsignature",
+                "value": "{{authsignature}}"
+              },
+              {
+                "name": "usersignature",
+                "value": "{{usersignature}}"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{\n  \"header\": {\n    \"created\": 0,\n    \"app_handle\": \"{{appHandle}}\",\n    \"user_handle\": \"{{userHandle}}\"\n  }\n}"
+            }
+          },
+          "docs": "Upload a KYC/KYB supporting document (multipart). Requires authsignature + usersignature."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Wallets",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Register a wallet keypair",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.silamoney.com/0.2/register_wallet",
+            "headers": [
+              {
+                "name": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "name": "authsignature",
+                "value": "{{authsignature}}"
+              },
+              {
+                "name": "usersignature",
+                "value": "{{usersignature}}"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{\n  \"header\": {\n    \"created\": 0,\n    \"app_handle\": \"{{appHandle}}\",\n    \"user_handle\": \"{{userHandle}}\"\n  }\n}"
+            }
+          },
+          "docs": "Register an additional ECDSA (secp256k1) keypair to a user. Requires authsignature + usersignature."
+        },
+        {
+          "info": {
+            "name": "Get the signing wallet",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.silamoney.com/0.2/get_wallet",
+            "headers": [
+              {
+                "name": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "name": "authsignature",
+                "value": "{{authsignature}}"
+              },
+              {
+                "name": "usersignature",
+                "value": "{{usersignature}}"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{\n  \"header\": {\n    \"created\": 0,\n    \"app_handle\": \"{{appHandle}}\",\n    \"user_handle\": \"{{userHandle}}\"\n  }\n}"
+            }
+          },
+          "docs": "Return details for the wallet whose keypair signed the request. Requires authsignature + usersignature."
+        },
+        {
+          "info": {
+            "name": "List wallets",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.silamoney.com/0.2/get_wallets",
+            "headers": [
+              {
+                "name": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "name": "authsignature",
+                "value": "{{authsignature}}"
+              },
+              {
+                "name": "usersignature",
+                "value": "{{usersignature}}"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{\n  \"header\": {\n    \"created\": 0,\n    \"app_handle\": \"{{appHandle}}\",\n    \"user_handle\": \"{{userHandle}}\"\n  }\n}"
+            }
+          },
+          "docs": "List all wallets registered to a user. Requires authsignature + usersignature."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Bank Accounts",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Link a bank account",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.silamoney.com/0.2/link_account",
+            "headers": [
+              {
+                "name": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "name": "authsignature",
+                "value": "{{authsignature}}"
+              },
+              {
+                "name": "usersignature",
+                "value": "{{usersignature}}"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{\n  \"header\": {\n    \"created\": 0,\n    \"app_handle\": \"{{appHandle}}\",\n    \"user_handle\": \"{{userHandle}}\"\n  }\n}"
+            }
+          },
+          "docs": "Link an external bank account as a funding source (direct or via Plaid). Requires authsignature + usersignature."
+        },
+        {
+          "info": {
+            "name": "List linked accounts",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.silamoney.com/0.2/get_accounts",
+            "headers": [
+              {
+                "name": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "name": "authsignature",
+                "value": "{{authsignature}}"
+              },
+              {
+                "name": "usersignature",
+                "value": "{{usersignature}}"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{\n  \"header\": {\n    \"created\": 0,\n    \"app_handle\": \"{{appHandle}}\",\n    \"user_handle\": \"{{userHandle}}\"\n  }\n}"
+            }
+          },
+          "docs": "List the external bank accounts linked to a user. Requires authsignature + usersignature."
+        },
+        {
+          "info": {
+            "name": "Get account balance",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.silamoney.com/0.2/get_account_balance",
+            "headers": [
+              {
+                "name": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "name": "authsignature",
+                "value": "{{authsignature}}"
+              },
+              {
+                "name": "usersignature",
+                "value": "{{usersignature}}"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{\n  \"header\": {\n    \"created\": 0,\n    \"app_handle\": \"{{appHandle}}\",\n    \"user_handle\": \"{{userHandle}}\"\n  }\n}"
+            }
+          },
+          "docs": "Return balance for a linked bank account. Requires authsignature + usersignature."
+        },
+        {
+          "info": {
+            "name": "Check bank account capabilities",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.silamoney.com/0.2/check_bank_account_capabilities",
+            "headers": [
+              {
+                "name": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "name": "authsignature",
+                "value": "{{authsignature}}"
+              },
+              {
+                "name": "usersignature",
+                "value": "{{usersignature}}"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{\n  \"header\": {\n    \"created\": 0,\n    \"app_handle\": \"{{appHandle}}\",\n    \"user_handle\": \"{{userHandle}}\"\n  }\n}"
+            }
+          },
+          "docs": "Confirm ACH send/receive capability before money movement. Requires authsignature + usersignature."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Payments & Transactions",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Issue Sila (debit bank, credit wallet)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.silamoney.com/0.2/issue_sila",
+            "headers": [
+              {
+                "name": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "name": "authsignature",
+                "value": "{{authsignature}}"
+              },
+              {
+                "name": "usersignature",
+                "value": "{{usersignature}}"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{\n  \"header\": {\n    \"created\": 0,\n    \"app_handle\": \"{{appHandle}}\",\n    \"user_handle\": \"{{userHandle}}\"\n  }\n}"
+            }
+          },
+          "docs": "Debit a linked bank account over ACH and credit the wallet balance. Requires authsignature + usersignature."
+        },
+        {
+          "info": {
+            "name": "Transfer Sila (wallet to wallet)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.silamoney.com/0.2/transfer_sila",
+            "headers": [
+              {
+                "name": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "name": "authsignature",
+                "value": "{{authsignature}}"
+              },
+              {
+                "name": "usersignature",
+                "value": "{{usersignature}}"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{\n  \"header\": {\n    \"created\": 0,\n    \"app_handle\": \"{{appHandle}}\",\n    \"user_handle\": \"{{userHandle}}\"\n  }\n}"
+            }
+          },
+          "docs": "Move wallet balance user-to-user within the program. Requires authsignature + usersignature."
+        },
+        {
+          "info": {
+            "name": "Redeem Sila (debit wallet, credit bank)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.silamoney.com/0.2/redeem_sila",
+            "headers": [
+              {
+                "name": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "name": "authsignature",
+                "value": "{{authsignature}}"
+              },
+              {
+                "name": "usersignature",
+                "value": "{{usersignature}}"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{\n  \"header\": {\n    \"created\": 0,\n    \"app_handle\": \"{{appHandle}}\",\n    \"user_handle\": \"{{userHandle}}\"\n  }\n}"
+            }
+          },
+          "docs": "Debit wallet balance and credit a linked bank account over ACH. Requires authsignature + usersignature."
+        },
+        {
+          "info": {
+            "name": "List transactions",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.silamoney.com/0.2/get_transactions",
+            "headers": [
+              {
+                "name": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "name": "authsignature",
+                "value": "{{authsignature}}"
+              },
+              {
+                "name": "usersignature",
+                "value": "{{usersignature}}"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{\n  \"header\": {\n    \"created\": 0,\n    \"app_handle\": \"{{appHandle}}\",\n    \"user_handle\": \"{{userHandle}}\"\n  }\n}"
+            }
+          },
+          "docs": "Return transaction history and status. Requires authsignature + usersignature."
+        },
+        {
+          "info": {
+            "name": "Cancel a pending transaction",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.silamoney.com/0.2/cancel_transaction",
+            "headers": [
+              {
+                "name": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "name": "authsignature",
+                "value": "{{authsignature}}"
+              },
+              {
+                "name": "usersignature",
+                "value": "{{usersignature}}"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{\n  \"header\": {\n    \"created\": 0,\n    \"app_handle\": \"{{appHandle}}\",\n    \"user_handle\": \"{{userHandle}}\"\n  }\n}"
+            }
+          },
+          "docs": "Cancel an eligible pending transaction. Requires authsignature + usersignature."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Payment Methods & Cards",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List payment methods",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.silamoney.com/0.2/get_payment_methods",
+            "headers": [
+              {
+                "name": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "name": "authsignature",
+                "value": "{{authsignature}}"
+              },
+              {
+                "name": "usersignature",
+                "value": "{{usersignature}}"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{\n  \"header\": {\n    \"created\": 0,\n    \"app_handle\": \"{{appHandle}}\",\n    \"user_handle\": \"{{userHandle}}\"\n  }\n}"
+            }
+          },
+          "docs": "List bank accounts, virtual accounts, and wallets in one call. Requires authsignature + usersignature."
+        },
+        {
+          "info": {
+            "name": "Link a debit card",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.silamoney.com/0.2/link_card",
+            "headers": [
+              {
+                "name": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "name": "authsignature",
+                "value": "{{authsignature}}"
+              },
+              {
+                "name": "usersignature",
+                "value": "{{usersignature}}"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{\n  \"header\": {\n    \"created\": 0,\n    \"app_handle\": \"{{appHandle}}\",\n    \"user_handle\": \"{{userHandle}}\"\n  }\n}"
+            }
+          },
+          "docs": "Attach a debit card as a payment instrument. Requires authsignature + usersignature."
+        }
+      ]
+    }
+  ]
+}
