@@ -171,6 +171,8 @@ apis:
     names are not published on the pages reviewed and are therefore not modeled in
     the OpenAPI; see review.yml.
 common:
+- type: AgenticAccess
+  url: agentic-access/sila-money-agentic-access.yml
 - type: DomainSecurity
   url: security/sila-money-domain-security.yml
 - type: Authentication
