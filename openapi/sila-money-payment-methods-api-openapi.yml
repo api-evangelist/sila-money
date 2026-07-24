@@ -1,0 +1,120 @@
+openapi: 3.0.3
+info:
+  title: Sila Money Accounts Payment Methods API
+  description: 'Sila is an embedded-finance / banking-as-a-service money API for fintech developers. This OpenAPI document models the documented, live Sila REST surface at https://api.silamoney.com/0.2 (sandbox https://sandbox.silamoney.com/0.2). Every endpoint is invoked with HTTP POST and a JSON message body. Requests are authenticated with ECDSA (secp256k1) signatures computed over a Keccak-256 (SHA3) hash of the stringified message body and passed in the "authsignature" header (app keypair) and, for user-scoped calls, the "usersignature" header (user keypair); KYB / business calls additionally use a "businesssignature" header.
+
+    HONESTY NOTE: Endpoint PATHS and HTTP methods below are grounded in the live Sila docs and live probes. Request and response SCHEMAS are intentionally modeled as permissive objects (additionalProperties: true) rather than reproduced field-by-field - Sila''s real request/response bodies are richer than modeled here. Treat schema bodies as MODELED, not authoritative; consult the linked ReadMe docs for exact fields. The dedicated Virtual Accounts management endpoints are NOT modeled because their exact paths were not confirmed on the pages reviewed.'
+  version: '0.2'
+  contact:
+    name: Sila Money
+    url: https://www.silamoney.com/
+  x-status: live
+  x-reviewed: '2026-07-12'
+servers:
+- url: https://api.silamoney.com/0.2
+  description: Production
+- url: https://sandbox.silamoney.com/0.2
+  description: Sandbox
+security:
+- authsignature: []
+tags:
+- name: Payment Methods
+  description: Enumerated payment instruments and debit-card linking.
+paths:
+  /get_payment_methods:
+    post:
+      operationId: getPaymentMethods
+      tags:
+      - Payment Methods
+      summary: List payment methods
+      description: Lists all payment methods linked to an entity - bank accounts, virtual accounts, and wallets - in a single call. Requires authsignature and usersignature.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Message'
+      responses:
+        '200':
+          description: Payment method list.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SilaResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+  /link_card:
+    post:
+      operationId: linkCard
+      tags:
+      - Payment Methods
+      summary: Link a debit card
+      description: Attaches a debit card as a payment instrument for supported card-based flows. Requires authsignature and usersignature.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Message'
+      responses:
+        '200':
+          description: Card linked.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SilaResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+components:
+  responses:
+    BadRequest:
+      description: 'Bad request - missing / invalid signature header or failed validation. Live example body - {"success": false, "validation_details": {"header": "This field is required."}, "message": "Bad request.", "status": "FAILURE"}.'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/SilaResponse'
+  schemas:
+    SilaResponse:
+      type: object
+      description: MODELED. Common Sila response envelope. success / status indicate outcome; message is human-readable; validation_details carries field errors on 400. Endpoint-specific fields are returned alongside and are not exhaustively modeled.
+      additionalProperties: true
+      properties:
+        success:
+          type: boolean
+        status:
+          type: string
+          description: SUCCESS or FAILURE.
+        message:
+          type: string
+        reference:
+          type: string
+        validation_details:
+          type: object
+          additionalProperties: true
+    Message:
+      type: object
+      description: MODELED. Sila message body. Every request carries a header object with the app handle, an optional user handle, a per-request reference, and a created (epoch) timestamp, plus endpoint-specific fields. Real bodies are richer than modeled here - see the linked docs.
+      additionalProperties: true
+      properties:
+        header:
+          type: object
+          additionalProperties: true
+          properties:
+            created:
+              type: integer
+              description: Unix epoch timestamp of request creation.
+            app_handle:
+              type: string
+              description: The registered application handle.
+            user_handle:
+              type: string
+              description: The end-user or business handle (user-scoped calls).
+            reference:
+              type: string
+              description: Client-supplied request reference / idempotency aid.
+  securitySchemes:
+    authsignature:
+      type: apiKey
+      in: header
+      name: authsignature
+      description: Hex-encoded ECDSA (secp256k1) signature of the Keccak-256 hash of the stringified JSON message body, signed with the app's private key. User- scoped endpoints additionally require a "usersignature" header (user keypair); KYB / business endpoints additionally require a "businesssignature" header (business keypair). These are additional headers rather than separate OpenAPI security schemes because OpenAPI apiKey schemes cannot express "sign this exact body."
