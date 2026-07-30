@@ -11,7 +11,20 @@ description: Sila is an embedded-finance / banking-as-a-service platform that ex
   "usersignature" (and "businesssignature" for KYB) headers. As of the review date
   (2026-07-12) the sandbox and production hosts, the ReadMe-hosted docs, and multiple
   SDKs are live and actively maintained.
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+accessModel:
+  pricing: freemium
+  onboarding: approval
+  trial: false
+  try_now: false
+  public: false
+  label: Freemium · Requires approval
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/sila-money.png
 tags:
 - Embedded Finance
 - Banking as a Service
@@ -28,128 +41,6 @@ created: '2026-07-12'
 modified: '2026-07-12'
 specificationVersion: '0.19'
 apis:
-- aid: sila-money:sila-money-identity-api
-  name: Sila Identity & KYC/KYB API
-  tags:
-  - Identity
-  - KYC
-  - KYB
-  - Onboarding
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://docs.silamoney.com/docs/get-started
-  baseURL: https://api.silamoney.com/0.2
-  properties:
-  - url: https://docs.silamoney.com/docs/get-started
-    type: Documentation
-  - url: https://docs.silamoney.com/docs/register
-    type: APIReference
-  - url: openapi/sila-money-openapi.yml
-    type: OpenAPI
-  - url: collections/sila-money.postman_collection.json
-    type: PostmanCollection
-  - url: collections/sila-money.opencollection.json
-    type: OpenCollection
-  description: Reserve a handle (check_handle), register end users and businesses
-    (register), and run identity verification with the classic KYC flow (request_kyc,
-    check_kyc), the advanced KYC / KYB flow (kyc), registration-data management, and
-    supporting-document upload (documents). Businesses use the businesssignature
-    header for KYB operations.
-- aid: sila-money:sila-money-wallets-api
-  name: Sila Wallets API
-  tags:
-  - Digital Wallet
-  - Wallets
-  - Keys
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://docs.silamoney.com/docs/get_wallet
-  baseURL: https://api.silamoney.com/0.2
-  properties:
-  - url: https://docs.silamoney.com/docs/get_wallet
-    type: Documentation
-  - url: openapi/sila-money-openapi.yml
-    type: OpenAPI
-  - url: collections/sila-money.postman_collection.json
-    type: PostmanCollection
-  - url: collections/sila-money.opencollection.json
-    type: OpenCollection
-  description: Register and manage the ECDSA keypairs (blockchain-style addresses)
-    that identify a user's digital wallets - register_wallet to add a signing keypair,
-    get_wallet / get_wallets to list them, and update_wallet / delete_wallet to
-    manage them. Wallet keypairs sign user-scoped requests.
-- aid: sila-money:sila-money-accounts-api
-  name: Sila Bank Accounts API
-  tags:
-  - Bank Accounts
-  - Linked Accounts
-  - Plaid
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://docs.silamoney.com/docs/link_account
-  baseURL: https://api.silamoney.com/0.2
-  properties:
-  - url: https://docs.silamoney.com/docs/link_account
-    type: Documentation
-  - url: https://docs.silamoney.com/docs/get_accounts
-    type: APIReference
-  - url: openapi/sila-money-openapi.yml
-    type: OpenAPI
-  - url: collections/sila-money.postman_collection.json
-    type: PostmanCollection
-  - url: collections/sila-money.opencollection.json
-    type: OpenCollection
-  description: Connect and manage external bank accounts as funding sources -
-    link_account (directly or via a Plaid token), get_accounts, get_account_balance,
-    and check_bank_account_capabilities to confirm an account can send / receive over
-    ACH before money movement.
-- aid: sila-money:sila-money-payments-api
-  name: Sila Payments & Transactions API
-  tags:
-  - Payments
-  - ACH
-  - Money Transfer
-  - Transactions
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://docs.silamoney.com/docs/issue_sila
-  baseURL: https://api.silamoney.com/0.2
-  properties:
-  - url: https://docs.silamoney.com/docs/issue_sila
-    type: Documentation
-  - url: https://docs.silamoney.com/docs/transfer_sila
-    type: APIReference
-  - url: openapi/sila-money-openapi.yml
-    type: OpenAPI
-  - url: collections/sila-money.postman_collection.json
-    type: PostmanCollection
-  - url: collections/sila-money.opencollection.json
-    type: OpenCollection
-  description: Move money using Sila's issue / transfer / redeem model. issue_sila
-    debits a linked bank account over ACH and credits the user's wallet balance,
-    transfer_sila moves that balance wallet-to-wallet, and redeem_sila credits a
-    linked bank account over ACH. get_transactions returns transaction history and
-    status, and cancel_transaction reverses eligible pending transactions.
-- aid: sila-money:sila-money-payment-methods-api
-  name: Sila Payment Methods & Cards API
-  tags:
-  - Payment Methods
-  - Cards
-  - Debit Card
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://docs.silamoney.com/docs/get_payment_methods
-  baseURL: https://api.silamoney.com/0.2
-  properties:
-  - url: https://docs.silamoney.com/docs/get_payment_methods
-    type: Documentation
-  - url: https://docs.silamoney.com/docs/link_card
-    type: APIReference
-  - url: openapi/sila-money-openapi.yml
-    type: OpenAPI
-  - url: collections/sila-money.postman_collection.json
-    type: PostmanCollection
-  - url: collections/sila-money.opencollection.json
-    type: OpenCollection
-  description: Enumerate and manage the payment instruments attached to an entity.
-    get_payment_methods lists bank accounts, virtual accounts, and wallets in one
-    call; link_card attaches a debit card as a payment instrument for supported
-    card-based flows.
 - aid: sila-money:sila-money-virtual-accounts-api
   name: Sila Virtual Accounts API
   tags:
@@ -164,12 +55,172 @@ apis:
     type: Documentation
   - url: https://docs.silamoney.com/docs/get_payment_methods
     type: APIReference
-  description: Sila's Virtual Accounts product issues each user a dedicated account
-    and routing number, giving a program a real bank-account surface for receiving
-    and settling funds. Virtual accounts appear as a payment-method type in the
-    get_payment_methods response. The dedicated virtual-account management endpoint
-    names are not published on the pages reviewed and are therefore not modeled in
-    the OpenAPI; see review.yml.
+  description: >-
+    Sila's Virtual Accounts product issues each user a dedicated account and routing number, giving a
+    program a real bank-account surface for receiving and settling funds. Virtual accounts appear as a
+    payment-method type in the get_payment_methods response. The dedicated virtual-account management
+    endpoint names are not published on the pages reviewed and are therefore not modeled in the OpenAPI;
+    see review.yml.
+- aid: sila-money:sila-money-accounts-api
+  name: Sila Accounts API
+  description: Linked external bank accounts used as funding sources.
+  humanURL: https://docs.silamoney.com/docs/get-started
+  baseURL: https://api.silamoney.com/0.2
+  tags:
+  - Accounts
+  properties:
+  - type: OpenAPI
+    url: openapi/sila-money-accounts-api-openapi.yml
+  - type: Documentation
+    url: https://docs.silamoney.com/docs/get-started
+  - type: APIReference
+    url: https://docs.silamoney.com/docs/register
+  - type: PostmanCollection
+    url: collections/sila-money.postman_collection.json
+  - type: OpenCollection
+    url: collections/sila-money.opencollection.json
+  - type: Documentation
+    url: https://docs.silamoney.com/docs/get_wallet
+  - type: Documentation
+    url: https://docs.silamoney.com/docs/link_account
+  - type: APIReference
+    url: https://docs.silamoney.com/docs/get_accounts
+  - type: Documentation
+    url: https://docs.silamoney.com/docs/issue_sila
+  - type: APIReference
+    url: https://docs.silamoney.com/docs/transfer_sila
+  - type: Documentation
+    url: https://docs.silamoney.com/docs/get_payment_methods
+  - type: APIReference
+    url: https://docs.silamoney.com/docs/link_card
+- aid: sila-money:sila-money-identity-api
+  name: Sila Identity API
+  description: Handle reservation, registration, and KYC / KYB verification.
+  humanURL: https://docs.silamoney.com/docs/get-started
+  baseURL: https://api.silamoney.com/0.2
+  tags:
+  - Identity
+  properties:
+  - type: OpenAPI
+    url: openapi/sila-money-identity-api-openapi.yml
+  - type: Documentation
+    url: https://docs.silamoney.com/docs/get-started
+  - type: APIReference
+    url: https://docs.silamoney.com/docs/register
+  - type: PostmanCollection
+    url: collections/sila-money.postman_collection.json
+  - type: OpenCollection
+    url: collections/sila-money.opencollection.json
+  - type: Documentation
+    url: https://docs.silamoney.com/docs/get_wallet
+  - type: Documentation
+    url: https://docs.silamoney.com/docs/link_account
+  - type: APIReference
+    url: https://docs.silamoney.com/docs/get_accounts
+  - type: Documentation
+    url: https://docs.silamoney.com/docs/issue_sila
+  - type: APIReference
+    url: https://docs.silamoney.com/docs/transfer_sila
+  - type: Documentation
+    url: https://docs.silamoney.com/docs/get_payment_methods
+  - type: APIReference
+    url: https://docs.silamoney.com/docs/link_card
+- aid: sila-money:sila-money-payment-methods-api
+  name: Sila Payment Methods API
+  description: Enumerated payment instruments and debit-card linking.
+  humanURL: https://docs.silamoney.com/docs/get-started
+  baseURL: https://api.silamoney.com/0.2
+  tags:
+  - Payment Methods
+  properties:
+  - type: OpenAPI
+    url: openapi/sila-money-payment-methods-api-openapi.yml
+  - type: Documentation
+    url: https://docs.silamoney.com/docs/get-started
+  - type: APIReference
+    url: https://docs.silamoney.com/docs/register
+  - type: PostmanCollection
+    url: collections/sila-money.postman_collection.json
+  - type: OpenCollection
+    url: collections/sila-money.opencollection.json
+  - type: Documentation
+    url: https://docs.silamoney.com/docs/get_wallet
+  - type: Documentation
+    url: https://docs.silamoney.com/docs/link_account
+  - type: APIReference
+    url: https://docs.silamoney.com/docs/get_accounts
+  - type: Documentation
+    url: https://docs.silamoney.com/docs/issue_sila
+  - type: APIReference
+    url: https://docs.silamoney.com/docs/transfer_sila
+  - type: Documentation
+    url: https://docs.silamoney.com/docs/get_payment_methods
+  - type: APIReference
+    url: https://docs.silamoney.com/docs/link_card
+- aid: sila-money:sila-money-payments-api
+  name: Sila Payments API
+  description: Money movement via issue / transfer / redeem over ACH.
+  humanURL: https://docs.silamoney.com/docs/get-started
+  baseURL: https://api.silamoney.com/0.2
+  tags:
+  - Payments
+  properties:
+  - type: OpenAPI
+    url: openapi/sila-money-payments-api-openapi.yml
+  - type: Documentation
+    url: https://docs.silamoney.com/docs/get-started
+  - type: APIReference
+    url: https://docs.silamoney.com/docs/register
+  - type: PostmanCollection
+    url: collections/sila-money.postman_collection.json
+  - type: OpenCollection
+    url: collections/sila-money.opencollection.json
+  - type: Documentation
+    url: https://docs.silamoney.com/docs/get_wallet
+  - type: Documentation
+    url: https://docs.silamoney.com/docs/link_account
+  - type: APIReference
+    url: https://docs.silamoney.com/docs/get_accounts
+  - type: Documentation
+    url: https://docs.silamoney.com/docs/issue_sila
+  - type: APIReference
+    url: https://docs.silamoney.com/docs/transfer_sila
+  - type: Documentation
+    url: https://docs.silamoney.com/docs/get_payment_methods
+  - type: APIReference
+    url: https://docs.silamoney.com/docs/link_card
+- aid: sila-money:sila-money-wallets-api
+  name: Sila Wallets API
+  description: ECDSA keypair (wallet) registration and management.
+  humanURL: https://docs.silamoney.com/docs/get-started
+  baseURL: https://api.silamoney.com/0.2
+  tags:
+  - Wallets
+  properties:
+  - type: OpenAPI
+    url: openapi/sila-money-wallets-api-openapi.yml
+  - type: Documentation
+    url: https://docs.silamoney.com/docs/get-started
+  - type: APIReference
+    url: https://docs.silamoney.com/docs/register
+  - type: PostmanCollection
+    url: collections/sila-money.postman_collection.json
+  - type: OpenCollection
+    url: collections/sila-money.opencollection.json
+  - type: Documentation
+    url: https://docs.silamoney.com/docs/get_wallet
+  - type: Documentation
+    url: https://docs.silamoney.com/docs/link_account
+  - type: APIReference
+    url: https://docs.silamoney.com/docs/get_accounts
+  - type: Documentation
+    url: https://docs.silamoney.com/docs/issue_sila
+  - type: APIReference
+    url: https://docs.silamoney.com/docs/transfer_sila
+  - type: Documentation
+    url: https://docs.silamoney.com/docs/get_payment_methods
+  - type: APIReference
+    url: https://docs.silamoney.com/docs/link_card
 common:
 - type: AgenticAccess
   url: agentic-access/sila-money-agentic-access.yml
