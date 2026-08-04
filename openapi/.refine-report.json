@@ -1,0 +1,22 @@
+{
+  "provider": "sila-money",
+  "sources": [
+    "sila-money-accounts-api-openapi.yml",
+    "sila-money-identity-api-openapi.yml",
+    "sila-money-payment-methods-api-openapi.yml",
+    "sila-money-payments-api-openapi.yml",
+    "sila-money-wallets-api-openapi.yml"
+  ],
+  "outputs": [
+    "sila-money-accounts-api-openapi.yml",
+    "sila-money-identity-api-openapi.yml",
+    "sila-money-payment-methods-api-openapi.yml",
+    "sila-money-payments-api-openapi.yml",
+    "sila-money-wallets-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
