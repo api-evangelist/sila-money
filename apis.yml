@@ -39,7 +39,7 @@ tags:
 - Virtual Accounts
 created: '2026-07-12'
 modified: '2026-07-12'
-specificationVersion: '0.19'
+specificationVersion: '0.23'
 apis:
 - aid: sila-money:sila-money-virtual-accounts-api
   name: Sila Virtual Accounts API
