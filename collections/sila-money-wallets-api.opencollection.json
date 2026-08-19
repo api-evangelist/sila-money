@@ -1,0 +1,71 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Sila Money Accounts Wallets API",
+    "version": "0.2"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "authsignature",
+      "value": "{{authsignature}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Wallets",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Register a wallet keypair",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.silamoney.com/0.2/register_wallet",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Registers an additional ECDSA (secp256k1) keypair / address to a user so it can sign user-scoped requests. Requires authsignature and usersignature."
+        },
+        {
+          "info": {
+            "name": "Get the signing wallet",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.silamoney.com/0.2/get_wallet",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Returns details for the wallet whose keypair signed the request. Requires authsignature and usersignature."
+        },
+        {
+          "info": {
+            "name": "List wallets",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.silamoney.com/0.2/get_wallets",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Lists all wallets (keypairs) registered to a user. Requires authsignature and usersignature."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

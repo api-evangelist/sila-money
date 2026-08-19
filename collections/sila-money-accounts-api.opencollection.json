@@ -1,0 +1,86 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Sila Money Accounts API",
+    "version": "0.2"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "authsignature",
+      "value": "{{authsignature}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Accounts",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Link a bank account",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.silamoney.com/0.2/link_account",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Links an external bank account as a funding source, directly with account / routing numbers or via a Plaid token. Requires authsignature and usersignature."
+        },
+        {
+          "info": {
+            "name": "List linked accounts",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.silamoney.com/0.2/get_accounts",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Lists the external bank accounts linked to a user. Requires authsignature and usersignature."
+        },
+        {
+          "info": {
+            "name": "Get account balance",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.silamoney.com/0.2/get_account_balance",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Returns the available / current balance for a linked bank account. Requires authsignature and usersignature."
+        },
+        {
+          "info": {
+            "name": "Check bank account capabilities",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.silamoney.com/0.2/check_bank_account_capabilities",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Confirms whether a linked account can send and / or receive over ACH before money movement. Requires authsignature and usersignature."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

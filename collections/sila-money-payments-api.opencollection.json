@@ -1,0 +1,101 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Sila Money Accounts Payments API",
+    "version": "0.2"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "authsignature",
+      "value": "{{authsignature}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Payments",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Issue (debit bank, credit wallet)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.silamoney.com/0.2/issue_sila",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Debits a linked bank account over ACH and credits the user's wallet balance. Requires authsignature and usersignature."
+        },
+        {
+          "info": {
+            "name": "Transfer (wallet to wallet)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.silamoney.com/0.2/transfer_sila",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Moves wallet balance from one user / wallet to another within the program. Requires authsignature and usersignature."
+        },
+        {
+          "info": {
+            "name": "Redeem (debit wallet, credit bank)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.silamoney.com/0.2/redeem_sila",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Debits the user's wallet balance and credits a linked bank account over ACH. Requires authsignature and usersignature."
+        },
+        {
+          "info": {
+            "name": "List transactions",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.silamoney.com/0.2/get_transactions",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Returns transaction history and status, with filtering and pagination. Requires authsignature and usersignature."
+        },
+        {
+          "info": {
+            "name": "Cancel a pending transaction",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.silamoney.com/0.2/cancel_transaction",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Cancels an eligible pending transaction. Requires authsignature and usersignature."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

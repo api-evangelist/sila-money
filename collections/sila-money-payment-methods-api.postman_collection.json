@@ -1,0 +1,349 @@
+{
+  "item": [
+    {
+      "id": "4ff784d0-426b-4c74-9ed2-0a5963884dd5",
+      "name": "Payment Methods",
+      "description": {
+        "content": "Enumerated payment instruments and debit-card linking.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "5a3bd5cd-033e-43d6-8d1d-29cec9c99dd2",
+          "name": "List payment methods",
+          "request": {
+            "name": "List payment methods",
+            "description": {
+              "content": "Lists all payment methods linked to an entity - bank accounts, virtual accounts, and wallets - in a single call. Requires authsignature and usersignature.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "get_payment_methods"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"header\": {\n    \"created\": \"<integer>\",\n    \"app_handle\": \"<string>\",\n    \"user_handle\": \"<string>\",\n    \"reference\": \"<string>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "e6f99f28-937e-4081-b18f-2cefa38918d2",
+              "name": "Payment method list.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "get_payment_methods"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "authsignature",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"header\": {\n    \"created\": \"<integer>\",\n    \"app_handle\": \"<string>\",\n    \"user_handle\": \"<string>\",\n    \"reference\": \"<string>\"\n  },\n  \"key_0\": 2290.7851238805033,\n  \"key_1\": 4420\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": true,\n  \"status\": \"string\",\n  \"message\": \"string\",\n  \"reference\": \"string\",\n  \"validation_details\": {\n    \"key_0\": true\n  },\n  \"key_0\": false,\n  \"key_1\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6ab23f58-95ce-4c9e-93fe-395c9e3366f8",
+              "name": "Bad request - missing / invalid signature header or failed validation. Live example body - {\"success\": false, \"validation_details\": {\"header\": \"This field is required.\"}, \"message\": \"Bad request.\", \"status\": \"FAILURE\"}.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "get_payment_methods"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "authsignature",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"header\": {\n    \"created\": \"<integer>\",\n    \"app_handle\": \"<string>\",\n    \"user_handle\": \"<string>\",\n    \"reference\": \"<string>\"\n  },\n  \"key_0\": 2290.7851238805033,\n  \"key_1\": 4420\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": true,\n  \"status\": \"string\",\n  \"message\": \"string\",\n  \"reference\": \"string\",\n  \"validation_details\": {\n    \"key_0\": true\n  },\n  \"key_0\": false,\n  \"key_1\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "4c83fa54-6b68-4fe6-8e26-8306ed16901d",
+          "name": "Link a debit card",
+          "request": {
+            "name": "Link a debit card",
+            "description": {
+              "content": "Attaches a debit card as a payment instrument for supported card-based flows. Requires authsignature and usersignature.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "link_card"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"header\": {\n    \"created\": \"<integer>\",\n    \"app_handle\": \"<string>\",\n    \"user_handle\": \"<string>\",\n    \"reference\": \"<string>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "3aafcc07-5d2a-4fb1-afbf-17668f467d98",
+              "name": "Card linked.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "link_card"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "authsignature",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"header\": {\n    \"created\": \"<integer>\",\n    \"app_handle\": \"<string>\",\n    \"user_handle\": \"<string>\",\n    \"reference\": \"<string>\"\n  },\n  \"key_0\": 2290.7851238805033,\n  \"key_1\": 4420\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": true,\n  \"status\": \"string\",\n  \"message\": \"string\",\n  \"reference\": \"string\",\n  \"validation_details\": {\n    \"key_0\": true\n  },\n  \"key_0\": false,\n  \"key_1\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d6bc823e-fac3-4c35-b601-0ee0ef277c83",
+              "name": "Bad request - missing / invalid signature header or failed validation. Live example body - {\"success\": false, \"validation_details\": {\"header\": \"This field is required.\"}, \"message\": \"Bad request.\", \"status\": \"FAILURE\"}.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "link_card"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "authsignature",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"header\": {\n    \"created\": \"<integer>\",\n    \"app_handle\": \"<string>\",\n    \"user_handle\": \"<string>\",\n    \"reference\": \"<string>\"\n  },\n  \"key_0\": 2290.7851238805033,\n  \"key_1\": 4420\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": true,\n  \"status\": \"string\",\n  \"message\": \"string\",\n  \"reference\": \"string\",\n  \"validation_details\": {\n    \"key_0\": true\n  },\n  \"key_0\": false,\n  \"key_1\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.silamoney.com/0.2",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "authsignature"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "f653c4bd-f2e7-42f1-9847-376267e95cdd",
+    "name": "Sila Money Accounts Payment Methods API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Sila is an embedded-finance / banking-as-a-service money API for fintech developers. This OpenAPI document models the documented, live Sila REST surface at https://api.silamoney.com/0.2 (sandbox https://sandbox.silamoney.com/0.2). Every endpoint is invoked with HTTP POST and a JSON message body. Requests are authenticated with ECDSA (secp256k1) signatures computed over a Keccak-256 (SHA3) hash of the stringified message body and passed in the \"authsignature\" header (app keypair) and, for user-scoped calls, the \"usersignature\" header (user keypair); KYB / business calls additionally use a \"businesssignature\" header.\nHONESTY NOTE: Endpoint PATHS and HTTP methods below are grounded in the live Sila docs and live probes. Request and response SCHEMAS are intentionally modeled as permissive objects (additionalProperties: true) rather than reproduced field-by-field - Sila's real request/response bodies are richer than modeled here. Treat schema bodies as MODELED, not authoritative; consult the linked ReadMe docs for exact fields. The dedicated Virtual Accounts management endpoints are NOT modeled because their exact paths were not confirmed on the pages reviewed.\n\nContact Support:\n Name: Sila Money",
+      "type": "text/plain"
+    }
+  }
+}

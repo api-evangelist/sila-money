@@ -1,0 +1,101 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Sila Money Accounts Identity API",
+    "version": "0.2"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "authsignature",
+      "value": "{{authsignature}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Identity",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Check handle availability",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.silamoney.com/0.2/check_handle",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Checks whether a user or business handle is available before registration. Requires the authsignature header. Confirmed live - a POST with no signature header returns HTTP 400 with a validation error."
+        },
+        {
+          "info": {
+            "name": "Register a user or business",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.silamoney.com/0.2/register",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Registers a new end user or business entity, including registration data (name, address, contact, identity, and for businesses entity metadata). Requires authsignature."
+        },
+        {
+          "info": {
+            "name": "Request KYC verification",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.silamoney.com/0.2/request_kyc",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Starts identity verification (KYC) for a registered user. Requires authsignature and usersignature."
+        },
+        {
+          "info": {
+            "name": "Check KYC status",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.silamoney.com/0.2/check_kyc",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Returns the current verification status of a user or business. Requires authsignature and usersignature (businesssignature for KYB)."
+        },
+        {
+          "info": {
+            "name": "Upload a supporting document",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.silamoney.com/0.2/documents",
+            "body": {
+              "type": "multipart-form",
+              "data": []
+            }
+          },
+          "docs": "Uploads a supporting document (multipart) for KYC / KYB review, such as an ID or business formation document. Requires authsignature and usersignature."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

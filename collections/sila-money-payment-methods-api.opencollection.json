@@ -1,0 +1,56 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Sila Money Accounts Payment Methods API",
+    "version": "0.2"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "authsignature",
+      "value": "{{authsignature}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Payment Methods",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List payment methods",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.silamoney.com/0.2/get_payment_methods",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Lists all payment methods linked to an entity - bank accounts, virtual accounts, and wallets - in a single call. Requires authsignature and usersignature."
+        },
+        {
+          "info": {
+            "name": "Link a debit card",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.silamoney.com/0.2/link_card",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Attaches a debit card as a payment instrument for supported card-based flows. Requires authsignature and usersignature."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
