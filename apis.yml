@@ -46,6 +46,10 @@ apis:
   tags:
   - Virtual Accounts
   - Account Numbers
+  - Real-Time Payments
+  tags_raw:
+  - Virtual Accounts
+  - Account Numbers
   - Real Time Payments
   image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
   humanURL: https://www.silamoney.com/virtual-accounts
@@ -67,6 +71,8 @@ apis:
   humanURL: https://docs.silamoney.com/docs/get-started
   baseURL: https://api.silamoney.com/0.2
   tags:
+  - Account
+  tags_raw:
   - Accounts
   properties:
   - type: OpenAPI
