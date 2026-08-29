@@ -11,6 +11,18 @@ description: Sila is an embedded-finance / banking-as-a-service platform that ex
   "usersignature" (and "businesssignature" for KYB) headers. As of the review date
   (2026-07-12) the sandbox and production hosts, the ReadMe-hosted docs, and multiple
   SDKs are live and actively maintained.
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: true
+  label: Hosted service · you call their endpoint
+  confidence: high
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: freemium
   onboarding: approval
