@@ -1,9 +1,7 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Sila Money Accounts Wallets API
-  description: 'Sila is an embedded-finance / banking-as-a-service money API for fintech developers. This OpenAPI document models the documented, live Sila REST surface at https://api.silamoney.com/0.2 (sandbox https://sandbox.silamoney.com/0.2). Every endpoint is invoked with HTTP POST and a JSON message body. Requests are authenticated with ECDSA (secp256k1) signatures computed over a Keccak-256 (SHA3) hash of the stringified message body and passed in the "authsignature" header (app keypair) and, for user-scoped calls, the "usersignature" header (user keypair); KYB / business calls additionally use a "businesssignature" header.
-
-    HONESTY NOTE: Endpoint PATHS and HTTP methods below are grounded in the live Sila docs and live probes. Request and response SCHEMAS are intentionally modeled as permissive objects (additionalProperties: true) rather than reproduced field-by-field - Sila''s real request/response bodies are richer than modeled here. Treat schema bodies as MODELED, not authoritative; consult the linked ReadMe docs for exact fields. The dedicated Virtual Accounts management endpoints are NOT modeled because their exact paths were not confirmed on the pages reviewed.'
+  title: Sila Money Wallets API
+  description: Sila is an embedded-finance / banking-as-a-service money API for fintech developers.
   version: '0.2'
   contact:
     name: Sila Money
@@ -88,31 +86,7 @@ paths:
         '400':
           $ref: '#/components/responses/BadRequest'
 components:
-  responses:
-    BadRequest:
-      description: 'Bad request - missing / invalid signature header or failed validation. Live example body - {"success": false, "validation_details": {"header": "This field is required."}, "message": "Bad request.", "status": "FAILURE"}.'
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/SilaResponse'
   schemas:
-    SilaResponse:
-      type: object
-      description: MODELED. Common Sila response envelope. success / status indicate outcome; message is human-readable; validation_details carries field errors on 400. Endpoint-specific fields are returned alongside and are not exhaustively modeled.
-      additionalProperties: true
-      properties:
-        success:
-          type: boolean
-        status:
-          type: string
-          description: SUCCESS or FAILURE.
-        message:
-          type: string
-        reference:
-          type: string
-        validation_details:
-          type: object
-          additionalProperties: true
     Message:
       type: object
       description: MODELED. Sila message body. Every request carries a header object with the app handle, an optional user handle, a per-request reference, and a created (epoch) timestamp, plus endpoint-specific fields. Real bodies are richer than modeled here - see the linked docs.
@@ -134,6 +108,30 @@ components:
             reference:
               type: string
               description: Client-supplied request reference / idempotency aid.
+    SilaResponse:
+      type: object
+      description: MODELED. Common Sila response envelope. success / status indicate outcome; message is human-readable; validation_details carries field errors on 400. Endpoint-specific fields are returned alongside and are not exhaustively modeled.
+      additionalProperties: true
+      properties:
+        success:
+          type: boolean
+        status:
+          type: string
+          description: SUCCESS or FAILURE.
+        message:
+          type: string
+        reference:
+          type: string
+        validation_details:
+          type: object
+          additionalProperties: true
+  responses:
+    BadRequest:
+      description: 'Bad request - missing / invalid signature header or failed validation. Live example body - {"success": false, "validation_details": {"header": "This field is required."}, "message": "Bad request.", "status": "FAILURE"}.'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/SilaResponse'
   securitySchemes:
     authsignature:
       type: apiKey
