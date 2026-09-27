@@ -86,6 +86,13 @@ paths:
         '400':
           $ref: '#/components/responses/BadRequest'
 components:
+  responses:
+    BadRequest:
+      description: 'Bad request - missing / invalid signature header or failed validation. Live example body - {"success": false, "validation_details": {"header": "This field is required."}, "message": "Bad request.", "status": "FAILURE"}.'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/SilaResponse'
   schemas:
     Message:
       type: object
@@ -125,13 +132,6 @@ components:
         validation_details:
           type: object
           additionalProperties: true
-  responses:
-    BadRequest:
-      description: 'Bad request - missing / invalid signature header or failed validation. Live example body - {"success": false, "validation_details": {"header": "This field is required."}, "message": "Bad request.", "status": "FAILURE"}.'
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/SilaResponse'
   securitySchemes:
     authsignature:
       type: apiKey
