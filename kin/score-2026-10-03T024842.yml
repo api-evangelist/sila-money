@@ -1,22 +1,20 @@
-# Kin Score artifact — sila-money — 2026-08-30T203505
+# Kin Score artifact — sila-money — 2026-10-03T024842
 # The API Evangelist rating (https://github.com/api-evangelist/kin-score). Generated; do not edit.
 ---
 kin_score:
   slug: sila-money
-  schema_version: 0.17.2
-  scored_at: '2026-08-30'
-  run_ts: 2026-08-30T203505
-  composite: 34.5
+  schema_version: 0.23.0
+  scored_at: '2026-10-03'
+  run_ts: 2026-10-03T024842
+  composite: 30.8
   band: thin
   facets:
-    discoverability: 74.1
-    contract_quality: 55.8
-    governance: 0.0
-    operational_transparency: 34.2
-    developer_ergonomics: 25.0
-    commercial_clarity: 28.9
+    discoverability: 66.1
+    contract_quality: 50.2
     contract_governance: 0.0
-    access_clarity: 28.9
+    operational_transparency: 31.1
+    developer_ergonomics: 21.4
+    access_clarity: 26.8
   agent_readiness:
     score: 21.5
     band: agent-aware
@@ -44,7 +42,7 @@ kin_score:
     applies: true
     regime: Payments
     regime_id: payments
-    score: 18.8
+    score: 10.7
     matched_via: tags
   provenance:
     agentic_access: derived
