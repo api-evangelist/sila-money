@@ -87,6 +87,23 @@ paths:
           $ref: '#/components/responses/BadRequest'
 components:
   schemas:
+    SilaResponse:
+      type: object
+      description: MODELED. Common Sila response envelope. success / status indicate outcome; message is human-readable; validation_details carries field errors on 400. Endpoint-specific fields are returned alongside and are not exhaustively modeled.
+      additionalProperties: true
+      properties:
+        success:
+          type: boolean
+        status:
+          type: string
+          description: SUCCESS or FAILURE.
+        message:
+          type: string
+        reference:
+          type: string
+        validation_details:
+          type: object
+          additionalProperties: true
     Message:
       type: object
       description: MODELED. Sila message body. Every request carries a header object with the app handle, an optional user handle, a per-request reference, and a created (epoch) timestamp, plus endpoint-specific fields. Real bodies are richer than modeled here - see the linked docs.
@@ -108,23 +125,6 @@ components:
             reference:
               type: string
               description: Client-supplied request reference / idempotency aid.
-    SilaResponse:
-      type: object
-      description: MODELED. Common Sila response envelope. success / status indicate outcome; message is human-readable; validation_details carries field errors on 400. Endpoint-specific fields are returned alongside and are not exhaustively modeled.
-      additionalProperties: true
-      properties:
-        success:
-          type: boolean
-        status:
-          type: string
-          description: SUCCESS or FAILURE.
-        message:
-          type: string
-        reference:
-          type: string
-        validation_details:
-          type: object
-          additionalProperties: true
   responses:
     BadRequest:
       description: 'Bad request - missing / invalid signature header or failed validation. Live example body - {"success": false, "validation_details": {"header": "This field is required."}, "message": "Bad request.", "status": "FAILURE"}.'
