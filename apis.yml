@@ -50,7 +50,7 @@ tags:
 - Banking API
 - Virtual Accounts
 created: '2026-07-12'
-modified: '2026-07-12'
+modified: '2026-10-06'
 specificationVersion: '0.23'
 apis:
 - aid: sila-money:sila-money-virtual-accounts-api
@@ -240,6 +240,10 @@ apis:
   - type: APIReference
     url: https://docs.silamoney.com/docs/link_card
 common:
+- url: https://www.silamoney.com/blog
+  type: Blog
+- url: https://www.silamoney.com/ach/rss.xml
+  type: BlogRSS
 - type: CapabilityMap
   url: capabilities/sila-money-capability-edges.yml
   name: Sila Business Capability Map
